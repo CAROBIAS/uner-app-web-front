@@ -1,0 +1,35 @@
+<header class="barra">
+  <div class="marca">
+    <img class="logo" src="images/logo-clinica.png" alt="CLINICA Grupo AD" />
+    <span class="titulo">{{ titulo() }}</span>
+  </div>
+
+  <nav class="menu">
+    @for (enlace of menu(); track enlace.ruta) {
+      <a
+        [routerLink]="enlace.ruta"
+        routerLinkActive="activo"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        {{ enlace.etiqueta }}
+      </a>
+    }
+  </nav>
+
+  <div class="usuario">
+    @if (usuario(); as u) {
+      <span class="nombre"><i class="pi pi-user"></i> {{ u.nombres }} {{ u.apellidos }}</span>
+    }
+    <p-button
+      label="Cerrar sesión"
+      icon="pi pi-sign-out"
+      severity="secondary"
+      [text]="true"
+      (onClick)="cerrarSesion()"
+    />
+  </div>
+</header>
+
+<main class="contenido">
+  <router-outlet />
+</main>
