@@ -1,17 +1,1 @@
-<main style="padding: 2rem; display: grid; gap: 1.5rem; max-width: 640px">
-  <img src="images/logo-clinica.png" alt="CLINICA Grupo AD" style="width: 280px" />
-  <h1>Prueba de estilos</h1>
-  <p>Texto de lectura con el color principal del sistema.</p>
-  <div style="display: flex; gap: 0.75rem; flex-wrap: wrap">
-    <p-button label="Reservar turno" icon="pi pi-calendar" />
-    <p-button label="Cancelar" severity="secondary" [outlined]="true" />
-  </div>
-  <div style="display: flex; gap: 0.5rem">
-    <p-tag value="ACTIVO" severity="success" />
-    <p-tag value="CANCELADO" severity="danger" />
-    <p-tag value="ATENDIDO" severity="info" />
-    <p-tag value="AUSENTE" severity="warn" />
-  </div>
-  <p-datepicker [(ngModel)]="fecha" [inline]="true" />
-</main>
 <router-outlet />

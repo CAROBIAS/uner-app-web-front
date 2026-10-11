@@ -1,0 +1,56 @@
+/* Ocupa toda la pantalla y centra la tarjeta */
+.login {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--espaciado);
+}
+
+.tarjeta {
+  width: 100%;
+  max-width: 420px;
+  padding: 2rem;
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+  text-align: center;
+}
+
+.logo {
+  width: 240px;
+  margin-bottom: 1.5rem;
+}
+
+.subtitulo {
+  margin: 0 0 1.5rem;
+  color: var(--color-texto-secundario);
+}
+
+/* El formulario apila los campos con separación pareja */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: left;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.campo label {
+  font-weight: 600;
+  color: var(--color-titulos);
+}
+
+.campo input {
+  width: 100%;
+}
+
+.error-campo {
+  color: var(--color-error);
+}

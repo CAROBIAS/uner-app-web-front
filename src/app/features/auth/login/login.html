@@ -1,0 +1,56 @@
+<main class="login">
+  <section class="tarjeta">
+    <img class="logo" src="images/logo-clinica.png" alt="CLINICA Grupo AD" />
+
+    <h1>Iniciar sesión</h1>
+    <p class="subtitulo">Ingresá con tu documento para gestionar tus turnos.</p>
+
+    <form [formGroup]="formulario" (ngSubmit)="ingresar()" novalidate>
+      <div class="campo">
+        <label for="documento">Documento</label>
+        <p-iconfield>
+          <p-inputicon class="pi pi-id-card" />
+          <input
+            pInputText
+            id="documento"
+            formControlName="documento"
+            inputmode="numeric"
+            autocomplete="username"
+            placeholder="Ej: 40123456"
+          />
+        </p-iconfield>
+        @if (formulario.controls.documento.invalid && formulario.controls.documento.touched) {
+          <small class="error-campo">El documento es obligatorio.</small>
+        }
+      </div>
+
+      <div class="campo">
+        <label for="clave">Contraseña</label>
+        <p-password
+          inputId="clave"
+          formControlName="clave"
+          placeholder="Tu contraseña"
+          autocomplete="current-password"
+          [feedback]="false"
+          [toggleMask]="true"
+          [fluid]="true"
+        />
+        @if (formulario.controls.clave.invalid && formulario.controls.clave.touched) {
+          <small class="error-campo">La contraseña es obligatoria.</small>
+        }
+      </div>
+
+      @if (mensajeError(); as mensaje) {
+        <p-message severity="error">{{ mensaje }}</p-message>
+      }
+
+      <p-button
+        type="submit"
+        label="Iniciar sesión"
+        icon="pi pi-sign-in"
+        [loading]="cargando()"
+        [fluid]="true"
+      />
+    </form>
+  </section>
+</main>
