@@ -1,0 +1,71 @@
+/* Barra superior: marca a la izquierda, menú al centro y usuario a la derecha */
+.barra {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaciado);
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-superficie);
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo {
+  height: 40px;
+  width: auto;
+}
+
+.titulo {
+  padding-left: 0.75rem;
+  border-left: 1px solid var(--color-borde);
+  font-weight: 600;
+  color: var(--color-titulos);
+}
+
+/* El menú ocupa el espacio libre del medio */
+.menu {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.menu a {
+  padding: 0.5rem 0.75rem;
+  border-radius: var(--radio-borde);
+  color: var(--color-texto);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.menu a:hover {
+  background-color: var(--color-fondo);
+}
+
+/* Enlace de la pantalla actual */
+.menu a.activo {
+  color: var(--color-primario);
+  background-color: var(--color-fondo);
+}
+
+.usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.nombre {
+  color: var(--color-texto-secundario);
+}
+
+/* Área donde se muestra cada pantalla, con ancho máximo para que no se estire */
+.contenido {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}

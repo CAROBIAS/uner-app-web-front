@@ -1,1 +1,81 @@
-/* You can add global styles to this file, and also import other style files */
+/* =========================================================
+   Estilos globales — CLINICA Grupo AD
+   Aplican a toda la aplicación.
+   ========================================================= */
+
+/* Íconos de PrimeNG (clases "pi pi-...") */
+@import 'primeicons/primeicons.css';
+
+/* ---------------------------------------------------------
+   Tokens de diseño: colores y medidas de la clínica.
+   Todos por favor debemos usar estas variables
+   para esta alineado con estilo.
+   --------------------------------------------------------- */
+:root {
+  /* Colores de marca */
+  --color-primario: #0866d9;
+  --color-titulos: #142b59;
+  --color-secundario: #159d91;
+
+  /* Fondos y bordes */
+  --color-fondo: #f5f8fc;
+  --color-superficie: #ffffff;
+  --color-borde: #dce4ed;
+
+  /* Texto */
+  --color-texto: #202b3c;
+  --color-texto-secundario: #667085;
+
+  /* Estados */
+  --color-exito: #159b68;
+  --color-error: #dc4149;
+
+  /* Medidas comunes */
+  --radio-borde: 10px;
+  --sombra-tarjeta: 0 1px 3px rgba(20, 43, 89, 0.08), 0 4px 12px rgba(20, 43, 89, 0.06);
+  --espaciado: 1rem;
+
+  /* Tipografía del sistema operativo (no requiere descargar fuentes) */
+  --fuente-base: 'Segoe UI', system-ui, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* ---------------------------------------------------------
+   Base
+   --------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: var(--fuente-base);
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--color-texto);
+  background-color: var(--color-fondo);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--color-titulos);
+  margin: 0 0 0.5rem;
+  line-height: 1.25;
+}
+
+a {
+  color: var(--color-primario);
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
