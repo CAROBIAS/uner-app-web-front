@@ -1,2 +1,15 @@
-<h1>Portal del paciente</h1>
-<p>En construcción.</p>
+<h1>Hola, {{ usuario()?.nombres }}</h1>
+<p class="subtitulo">¿Qué querés hacer hoy?</p>
+
+<div class="accesos">
+  <a class="acceso" routerLink="/paciente/reservar">
+    <i class="pi pi-calendar-plus"></i>
+    <span class="titulo">Reservar turno</span>
+    <span class="detalle">Elegí médico, fecha y horario.</span>
+  </a>
+  <a class="acceso" routerLink="/paciente/turnos">
+    <i class="pi pi-list"></i>
+    <span class="titulo">Mis turnos</span>
+    <span class="detalle">Mirá el estado y el valor de tus turnos, o cancelalos.</span>
+  </a>
+</div>

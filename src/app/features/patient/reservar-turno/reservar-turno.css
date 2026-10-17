@@ -1,0 +1,94 @@
+/* Dos columnas en pantallas anchas, una sola en el celular */
+.grilla {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.tarjeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.tarjeta h2 {
+  margin: 0.5rem 0 0;
+  font-size: 1.1rem;
+}
+
+.ayuda,
+.matricula {
+  color: var(--color-texto-secundario);
+}
+
+.matricula {
+  margin-left: 0.5rem;
+}
+
+/* Botones de horario en grilla de 4 */
+.horarios {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+
+.horario {
+  padding: 0.6rem 0;
+  font: inherit;
+  color: var(--color-texto);
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  cursor: pointer;
+}
+
+.horario:hover {
+  border-color: var(--color-primario);
+}
+
+.horario.elegido {
+  color: #ffffff;
+  background-color: var(--color-primario);
+  border-color: var(--color-primario);
+}
+
+/* Resumen en dos columnas: etiqueta y valor */
+.resumen {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.4rem 1rem;
+  margin: 0;
+}
+
+.resumen dt {
+  color: var(--color-texto-secundario);
+}
+
+.resumen dd {
+  margin: 0;
+  font-weight: 600;
+  text-align: right;
+}
+
+.confirmacion {
+  align-items: center;
+  text-align: center;
+}
+
+.icono-ok {
+  font-size: 3rem;
+  color: var(--color-exito);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}

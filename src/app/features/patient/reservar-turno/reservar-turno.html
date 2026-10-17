@@ -1,0 +1,116 @@
+<h1>Reservar turno</h1>
+
+@if (reservaConfirmada()) {
+  <section class="tarjeta confirmacion">
+    <i class="pi pi-check-circle icono-ok"></i>
+    <h2>¡Turno reservado!</h2>
+    <p>
+      {{ fecha() | date: 'EEEE d \'de\' MMMM' }} a las {{ horario() }} hs con
+      {{ medicoElegido()?.apellidos }}, {{ medicoElegido()?.nombres }}.
+    </p>
+    <div class="acciones">
+      <p-button label="Ver mis turnos" icon="pi pi-list" routerLink="/paciente/turnos" />
+      <p-button
+        label="Reservar otro"
+        icon="pi pi-plus"
+        severity="secondary"
+        [outlined]="true"
+        (onClick)="nuevaReserva()"
+      />
+    </div>
+  </section>
+} @else {
+  <div class="grilla">
+    <section class="tarjeta">
+      <h2>1. Elegí el médico</h2>
+      <ng-select
+        [items]="opcionesMedicos()"
+        bindLabel="etiqueta"
+        bindValue="id"
+        [ngModel]="idMedico()"
+        (ngModelChange)="elegirMedico($event)"
+        [loading]="cargandoMedicos()"
+        placeholder="Buscá por apellido o nombre"
+        notFoundText="No se encontraron médicos"
+        loadingText="Cargando..."
+        labelForId="medico"
+      >
+        <ng-template ng-option-tmp let-item="item">
+          {{ item.etiqueta }}
+          <small class="matricula">Mat. {{ item.matricula }}</small>
+        </ng-template>
+      </ng-select>
+
+      @if (idMedico() !== null) {
+        <h2>2. Elegí la fecha</h2>
+        <p-datepicker
+          [ngModel]="fecha()"
+          (ngModelChange)="elegirFecha($event)"
+          [inline]="true"
+          [minDate]="fechaMinima"
+          [maxDate]="fechaMaxima"
+          [disabledDays]="diasDeshabilitados"
+        />
+        <small class="ayuda">Atención de lunes a viernes, hasta 30 días de anticipación.</small>
+      }
+    </section>
+
+    <section class="tarjeta">
+      <h2>3. Elegí el horario</h2>
+      @if (!fecha()) {
+        <p class="ayuda">Primero elegí el médico y la fecha.</p>
+      } @else if (horarios().length === 0) {
+        <p class="ayuda">No quedan horarios para este día. Probá con otra fecha.</p>
+      } @else {
+        <div class="horarios">
+          @for (h of horarios(); track h) {
+            <button
+              type="button"
+              class="horario"
+              [class.elegido]="h === horario()"
+              (click)="elegirHorario(h)"
+            >
+              {{ h }}
+            </button>
+          }
+        </div>
+      }
+
+      <h2>Resumen del turno</h2>
+      <dl class="resumen">
+        <dt>Profesional</dt>
+        <dd>
+          @if (medicoElegido(); as m) {
+            {{ m.apellidos }}, {{ m.nombres }}
+          } @else {
+            —
+          }
+        </dd>
+        <dt>Fecha</dt>
+        <dd>{{ fecha() ? (fecha() | date: 'EEEE d \'de\' MMMM y') : '—' }}</dd>
+        <dt>Horario</dt>
+        <dd>{{ horario() ? horario() + ' hs' : '—' }}</dd>
+        <dt>Valor de la consulta</dt>
+        <dd>
+          {{ medicoElegido() ? (medicoElegido()!.valor_consulta | currency: 'ARS' : 'symbol-narrow' : '1.0-0') : '—' }}
+        </dd>
+      </dl>
+      <small class="ayuda">
+        <i class="pi pi-lock"></i> El valor queda congelado al confirmar la reserva.
+      </small>
+
+      @if (mensajeError(); as mensaje) {
+        <p-message severity="error">{{ mensaje }}</p-message>
+      }
+
+      <p-button
+        label="Reservar turno"
+        icon="pi pi-calendar-plus"
+        [disabled]="!puedeReservar()"
+        [loading]="reservando()"
+        [fluid]="true"
+        (onClick)="reservar()"
+      />
+    </section>
+  </div>
+}

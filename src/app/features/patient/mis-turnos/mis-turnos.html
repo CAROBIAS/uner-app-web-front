@@ -1,0 +1,56 @@
+<div class="encabezado">
+  <h1>Mis turnos</h1>
+  <p-button label="Reservar turno" icon="pi pi-calendar-plus" routerLink="/paciente/reservar" />
+</div>
+
+@if (mensajeExito(); as mensaje) {
+  <p-message severity="success">{{ mensaje }}</p-message>
+}
+@if (mensajeError(); as mensaje) {
+  <p-message severity="error">{{ mensaje }}</p-message>
+}
+
+<section class="tarjeta">
+  <p-table [value]="filas()" [loading]="cargando()" [tableStyle]="{ 'min-width': '40rem' }">
+    <ng-template #header>
+      <tr>
+        <th>Fecha y hora</th>
+        <th>Profesional</th>
+        <th>Estado</th>
+        <th>Valor congelado</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-fila>
+      <tr>
+        <td>{{ fila.reserva.fecha_hora | date: 'dd/MM/yyyy HH:mm' }} hs</td>
+        <td>{{ fila.profesional }}</td>
+        <td><p-tag [value]="fila.estado" [severity]="fila.severidad" /></td>
+        <td>{{ fila.reserva.valor_congelado | currency: 'ARS' : 'symbol-narrow' : '1.0-0' }}</td>
+        <td class="acciones">
+          @if (fila.puedeCancelar) {
+            <p-button
+              label="Cancelar"
+              icon="pi pi-times"
+              severity="danger"
+              [text]="true"
+              (onClick)="confirmarCancelacion(fila)"
+            />
+          }
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5" class="vacio">Todavía no tenés turnos reservados.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>
+
+<p class="ayuda">
+  <i class="pi pi-info-circle"></i> Podés cancelar un turno pendiente hasta el día anterior.
+  El valor que figura es el que quedó congelado al reservar.
+</p>
+
+<p-confirmdialog />

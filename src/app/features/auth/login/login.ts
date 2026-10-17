@@ -9,6 +9,7 @@ import { InputTextModule } from 'primeng/inputtext';
 import { MessageModule } from 'primeng/message';
 import { PasswordModule } from 'primeng/password';
 import { AuthService } from '../../../core/services/auth.service';
+import { obtenerMensajeDeError } from '../../../shared/utils/mensaje-error';
 
 /**
  * Pantalla de inicio de sesión.
@@ -62,27 +63,9 @@ export class Login {
         this.router.navigateByUrl(this.authService.rutaDeInicio(usuario.rol));
       },
       error: (error: HttpErrorResponse) => {
-        this.mensajeError.set(this.obtenerMensaje(error));
+        this.mensajeError.set(obtenerMensajeDeError(error));
         this.cargando.set(false);
       },
     });
-  }
-
-  /**
-   * Convierte el error del backend en un texto para el usuario.
-   * El backend manda el motivo en "message" (texto o lista de textos).
-   */
-  private obtenerMensaje(error: HttpErrorResponse): string {
-    if (error.status === 0 || error.status >= 500) {
-      return 'No se pudo conectar con el servidor. Intentá de nuevo más tarde.';
-    }
-    const mensaje = error.error?.message;
-    if (typeof mensaje === 'string') {
-      return mensaje;
-    }
-    if (Array.isArray(mensaje)) {
-      return mensaje.join('. ');
-    }
-    return 'Ocurrió un error inesperado. Intentá de nuevo.';
   }
 }
