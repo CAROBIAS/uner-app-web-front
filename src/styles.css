@@ -5,6 +5,7 @@
 
 /* Íconos de PrimeNG (clases "pi pi-...") */
 @import 'primeicons/primeicons.css';
+@import '@ng-select/ng-select/themes/default.theme.css';
 
 /* ---------------------------------------------------------
    Tokens de diseño: colores y medidas de la clínica.

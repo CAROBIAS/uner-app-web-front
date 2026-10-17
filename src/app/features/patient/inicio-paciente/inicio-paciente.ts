@@ -1,12 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 /**
- * Pantalla de inicio del paciente.
- * Provisoria: se reemplaza por el portal real en la etapa 4.
+ * Pantalla de inicio del paciente: saludo y accesos a sus dos acciones principales.
  */
 @Component({
   selector: 'app-inicio-paciente',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './inicio-paciente.html',
+  styleUrl: './inicio-paciente.css',
 })
-export class InicioPaciente {}
+export class InicioPaciente {
+  /** Usuario logueado, para el saludo. */
+  readonly usuario = inject(AuthService).usuarioActual;
+}

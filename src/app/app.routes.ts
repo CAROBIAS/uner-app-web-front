@@ -24,7 +24,7 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./layout/layout-principal/layout-principal').then((m) => m.LayoutPrincipal),
     children: [
-      {
+        {
         path: 'paciente',
         canActivate: [rolGuard],
         data: { roles: ['PACIENTE'] },
@@ -35,6 +35,18 @@ export const routes: Routes = [
               import('./features/patient/inicio-paciente/inicio-paciente').then(
                 (m) => m.InicioPaciente,
               ),
+          },
+          {
+            path: 'reservar',
+            loadComponent: () =>
+              import('./features/patient/reservar-turno/reservar-turno').then(
+                (m) => m.ReservarTurno,
+              ),
+          },
+          {
+            path: 'turnos',
+            loadComponent: () =>
+              import('./features/patient/mis-turnos/mis-turnos').then((m) => m.MisTurnos),
           },
         ],
       },
