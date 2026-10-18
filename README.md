@@ -21,6 +21,17 @@ ng serve
 Abrir `http://localhost:4200`. Si el backend no está levantado, el login muestra
 "No se pudo conectar con el servidor".
 
+### Build de producción y tests
+
+```bash
+ng build                 # genera dist/uner-app-web-front (lo sirve Nginx)
+ng test --watch=false    # corre los tests una vez
+```
+
+En `angular.json` el aviso de tamaño inicial está en 600 kB (Angular trae 500 kB por defecto).
+La app pesa unos 507 kB sin comprimir por PrimeNG y el formato es-AR, pero viajan unos 121 kB
+comprimidos. El límite de error sigue en 1 MB.
+
 ### Usuarios de prueba (los crea el seed del backend, clave `asd123`)
 
 | Rol           | Documento |
