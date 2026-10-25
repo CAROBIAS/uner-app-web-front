@@ -1,2 +1,171 @@
 <h1>Panel de administración</h1>
-<p>En construcción.</p>
+<p class="subtitulo">Gestioná turnos, honorarios y reservas para pacientes.</p>
+
+@if (mensajeExito(); as mensaje) {
+  <p-message severity="success">{{ mensaje }}</p-message>
+}
+@if (mensajeError(); as mensaje) {
+  <p-message severity="error">{{ mensaje }}</p-message>
+}
+
+<section class="tarjeta formulario-reserva">
+  <div>
+    <h2>Reservar para un paciente</h2>
+    <p class="ayuda">La reserva queda registrada con el honorario vigente del médico.</p>
+  </div>
+
+  <div class="busqueda-paciente">
+    <label for="documento-paciente">Documento del paciente</label>
+    <div class="campo-busqueda">
+      <input
+        id="documento-paciente"
+        type="text"
+        inputmode="numeric"
+        autocomplete="off"
+        [value]="pacienteDocumento()"
+        (input)="cambiarDocumento($event)"
+        placeholder="Ej.: 40123456"
+      />
+      <p-button
+        label="Buscar"
+        icon="pi pi-search"
+        [loading]="buscandoPaciente()"
+        (onClick)="buscarPaciente()"
+      />
+    </div>
+    @if (pacienteSeleccionado(); as paciente) {
+      <p class="paciente-encontrado">
+        <i class="pi pi-check-circle"></i>
+        {{ paciente.apellidos }}, {{ paciente.nombres }} · DNI {{ paciente.documento }}
+      </p>
+    }
+  </div>
+
+  <div class="campos-reserva">
+    <label>
+      Médico
+      <select [value]="idMedico()" (change)="cambiarMedico($event)">
+        <option value="">Seleccionar médico</option>
+        @for (medico of medicos(); track medico.id) {
+          <option [value]="medico.id">{{ medico.apellidos }}, {{ medico.nombres }}</option>
+        }
+      </select>
+    </label>
+    <label>
+      Fecha
+      <input type="date" [value]="fecha()" (change)="cambiarFecha($event)" />
+    </label>
+    <label>
+      Horario
+      <select [value]="horario()" (change)="cambiarHorario($event)">
+        <option value="">Seleccionar horario</option>
+        @for (hora of horarios; track hora) {
+          <option [value]="hora">{{ hora }} hs</option>
+        }
+      </select>
+    </label>
+    <p-button
+      label="Reservar turno"
+      icon="pi pi-calendar-plus"
+      [loading]="reservando()"
+      [disabled]="!pacienteSeleccionado() || !idMedico() || !fecha() || !horario()"
+      (onClick)="reservarParaPaciente()"
+    />
+  </div>
+</section>
+
+<section class="seccion">
+  <h2>Honorarios médicos</h2>
+  <div class="tarjeta tabla-contenedor">
+    <p-table [value]="medicos()" [loading]="cargando()" [tableStyle]="{ 'min-width': '38rem' }">
+      <ng-template #header>
+        <tr>
+          <th>Profesional</th>
+          <th>Matrícula</th>
+          <th>Valor actual</th>
+          <th>Nuevo valor</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-medico>
+        <tr>
+          <td>{{ medico.apellidos }}, {{ medico.nombres }}</td>
+          <td>{{ medico.matricula }}</td>
+          <td>{{ medico.valor_consulta | currency: 'ARS' : 'symbol-narrow' : '1.0-0' }}</td>
+          <td>
+            <input
+              class="valor-input"
+              type="number"
+              min="1"
+              step="1"
+              [value]="valoresEditados()[medico.id] ?? medico.valor_consulta"
+              (input)="cambiarValor(medico.id, $event)"
+              [attr.aria-label]="'Nuevo honorario para ' + medico.apellidos + ', ' + medico.nombres"
+            />
+          </td>
+          <td class="acciones">
+            <p-button
+              label="Guardar"
+              icon="pi pi-save"
+              [loading]="guardandoMedicoId() === medico.id"
+              [disabled]="guardandoMedicoId() !== null"
+              (onClick)="guardarValorConsulta(medico)"
+            />
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr><td colspan="5" class="vacio">No hay médicos disponibles.</td></tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>
+
+<section class="seccion">
+  <h2>Gestión global de turnos</h2>
+  <div class="tarjeta tabla-contenedor">
+    <p-table [value]="reservas()" [loading]="cargando()" [tableStyle]="{ 'min-width': '58rem' }">
+      <ng-template #header>
+        <tr>
+          <th>Fecha y hora</th>
+          <th>Paciente</th>
+          <th>Documento</th>
+          <th>Médico</th>
+          <th>Estado</th>
+          <th>Valor congelado</th>
+          <th></th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-reserva>
+        <tr>
+          <td>{{ reserva.fecha_hora | date: 'dd/MM/yyyy HH:mm' }} hs</td>
+          <td>{{ nombrePaciente(reserva) }}</td>
+          <td>{{ reserva.paciente_documento ?? '—' }}</td>
+          <td>{{ nombreMedico(reserva) }}</td>
+          <td>
+            <p-tag [value]="etiquetaEstado(reserva.estado)" [severity]="severidadEstado(reserva.estado)" />
+          </td>
+          <td>{{ reserva.valor_congelado | currency: 'ARS' : 'symbol-narrow' : '1.0-0' }}</td>
+          <td class="acciones">
+            @if (puedeCancelar(reserva)) {
+              <p-button
+                label="Cancelar"
+                icon="pi pi-times"
+                severity="danger"
+                [text]="true"
+                [loading]="cancelandoId() === reserva.id"
+                [disabled]="cancelandoId() !== null"
+                (onClick)="confirmarCancelacion(reserva)"
+              />
+            }
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr><td colspan="7" class="vacio">No hay turnos registrados.</td></tr>
+      </ng-template>
+    </p-table>
+  </div>
+</section>
+
+<p-confirmdialog />
