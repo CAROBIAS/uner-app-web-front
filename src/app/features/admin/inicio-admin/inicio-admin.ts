@@ -19,11 +19,10 @@ import { Usuario } from '../../../core/models/usuario.model';
 type Severidad = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
 
 const ESTADOS: Record<EstadoReserva, { etiqueta: string; severidad: Severidad }> = {
-  PENDIENTE: { etiqueta: 'Pendiente', severidad: 'info' },
+  ACTIVO: { etiqueta: 'Activo', severidad: 'info' },
   ATENDIDO: { etiqueta: 'Atendido', severidad: 'success' },
   AUSENTE: { etiqueta: 'Ausente', severidad: 'warn' },
-  CANCELADA_PACIENTE: { etiqueta: 'Cancelado por paciente', severidad: 'danger' },
-  CANCELADA_ADMIN: { etiqueta: 'Cancelado por clínica', severidad: 'danger' },
+  CANCELADO: { etiqueta: 'Cancelado', severidad: 'danger' },
 };
 
 @Component({
@@ -218,11 +217,11 @@ export class InicioAdmin implements OnInit {
   }
 
   etiquetaEstado(estado: EstadoReserva): string {
-    return ESTADOS[estado].etiqueta;
+    return ESTADOS[estado]?.etiqueta;
   }
 
   severidadEstado(estado: EstadoReserva): Severidad {
-    return ESTADOS[estado].severidad;
+    return ESTADOS[estado]?.severidad;
   }
 
   nombreMedico(reserva: Reserva): string {
@@ -240,7 +239,7 @@ export class InicioAdmin implements OnInit {
   }
 
   puedeCancelar(reserva: Reserva): boolean {
-    return reserva.estado === 'PENDIENTE' && new Date() < new Date(reserva.fecha_hora);
+    return reserva.estado === 'ACTIVO' && new Date() < new Date(reserva.fecha_hora);
   }
 
   private cancelar(reserva: Reserva): void {

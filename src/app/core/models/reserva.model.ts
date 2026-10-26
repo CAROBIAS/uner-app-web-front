@@ -2,11 +2,10 @@
  * Estados posibles de una reserva (enum EstadoReserva del backend).
  */
 export type EstadoReserva =
-  | 'PENDIENTE'
+  | 'ACTIVO'
   | 'ATENDIDO'
   | 'AUSENTE'
-  | 'CANCELADA_PACIENTE'
-  | 'CANCELADA_ADMIN';
+  | 'CANCELADO';
 
 /**
  * Estados posibles de una Atencion (enum EstadoAtencion del backend).
@@ -29,7 +28,7 @@ export interface Reserva {
   /** Estado actual del turno. */
   estado: EstadoReserva;
   /** Valor de la consulta congelado al momento de reservar, en pesos. */
-  valor_congelado: number;
+  valor_consulta: number;
   /** Paciente solicitud de datos. */
   paciente_nombres?: string;
   paciente_apellidos?: string;
