@@ -34,8 +34,6 @@ const MENU_POR_ROL: Record<RolUsuario, EnlaceMenu[]> = {
   ],
   ADMINISTRADOR: [
     { etiqueta: 'Inicio', ruta: '/admin' },
-    { etiqueta: 'Turnos', ruta: '/admin/turnos' },
-    { etiqueta: 'Consultas', ruta: '/admin/consultas' },
   ],
 };
 
