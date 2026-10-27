@@ -44,7 +44,7 @@ export const routes: Routes = [
               ),
           },
           {
-            path: 'turnos',
+            path: 'mis-turnos',
             loadComponent: () =>
               import('./features/patient/mis-turnos/mis-turnos').then((m) => m.MisTurnos),
           },
