@@ -73,7 +73,7 @@ export class MisTurnos implements OnInit {
   readonly filas = computed<FilaTurno[]>(() =>
     this.reservas().map((reserva) => ({
       reserva,
-      profesional: this.nombreDelMedico(reserva.id_medico),
+      profesional: this.nombreDelMedico(reserva.medico.id),
       estado: ESTADOS[reserva.estado].etiqueta,
       severidad: ESTADOS[reserva.estado].severidad,
       puedeCancelar: this.sePuedeCancelar(reserva),
