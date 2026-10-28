@@ -11,7 +11,7 @@ export class UsuariosService {
   /** Busca un paciente activo por documento para realizar una reserva administrativa. */
   buscarPaciente(documento: string): Observable<Usuario> {
     return this.http.get<Usuario>(
-      `${this.urlUsuarios}/pacientes/${encodeURIComponent(documento)}`,
+      `${this.urlUsuarios}/?documento=${encodeURIComponent(documento)}`,
     );
   }
 }
