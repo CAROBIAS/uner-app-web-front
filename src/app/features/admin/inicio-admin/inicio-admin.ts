@@ -183,13 +183,34 @@ export class InicioAdmin implements OnInit {
       .subscribe({
         next: (reserva) => {
           const medico = this.medicos().find((item) => item.id === idMedico);
+
+          if (!medico) {
+            this.reservando.set(false);
+            this.mensajeError.set('No se encontró el médico seleccionado.');
+            return;
+          }
+
+
+          if (!paciente) {
+            this.reservando.set(false);
+            this.mensajeError.set('No se encontró el paciente seleccionado.');
+            return;
+          }
+
           const reservaConNombres: Reserva = {
             ...reserva,
-            paciente_nombres: paciente.nombres,
-            paciente_apellidos: paciente.apellidos,
-            paciente_documento: paciente.documento,
-            medico_nombres: medico?.nombres,
-            medico_apellidos: medico?.apellidos,
+            paciente: {
+              id: paciente.id,
+              nombres: paciente.nombres,
+              apellidos: paciente.apellidos,
+              documento: paciente.documento,
+            },
+            medico: {
+              id: medico?.id,
+              nombres: medico?.nombres,
+              apellidos: medico?.apellidos,
+              documento: medico?.matricula.toString(),
+            },
           };
           this.reservas.update((lista) => [reservaConNombres, ...lista]);
           this.reservando.set(false);
@@ -225,21 +246,26 @@ export class InicioAdmin implements OnInit {
   }
 
   nombreMedico(reserva: Reserva): string {
-    if (reserva.medico_apellidos && reserva.medico_nombres) {
-      return `${reserva.medico_apellidos}, ${reserva.medico_nombres}`;
+    if (reserva.medico.apellidos && reserva.medico.nombres) {
+      return `${reserva.medico.apellidos}, ${reserva.medico.nombres}`;
     }
-    const medico = this.medicos().find((item) => item.id === reserva.id_medico);
-    return medico ? `${medico.apellidos}, ${medico.nombres}` : `Médico #${reserva.id_medico}`;
+    const medico = this.medicos().find((item) => item.id === reserva.medico.id);
+    return medico ? `${medico.apellidos}, ${medico.nombres}` : `Médico #${reserva.medico.id}`;
   }
 
   nombrePaciente(reserva: Reserva): string {
-    return reserva.paciente_apellidos && reserva.paciente_nombres
-      ? `${reserva.paciente_apellidos}, ${reserva.paciente_nombres}`
-      : `Paciente #${reserva.id_paciente}`;
+    return reserva.paciente.apellidos && reserva.paciente.nombres
+      ? `${reserva.paciente.apellidos}, ${reserva.paciente.nombres}`
+      : `Paciente #${reserva.paciente.id}`;
   }
 
   puedeCancelar(reserva: Reserva): boolean {
     return reserva.estado === 'ACTIVO' && new Date() < new Date(reserva.fecha_hora);
+  }
+
+  hoy(): string {
+    const hoy = new Date();
+    return hoy.toISOString().split('T')[0];
   }
 
   private cancelar(reserva: Reserva): void {
