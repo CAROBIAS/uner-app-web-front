@@ -1,3 +1,5 @@
+import { UsuarioBase } from "./usuario.model";
+
 /**
  * Estados posibles de una reserva (enum EstadoReserva del backend).
  */
@@ -19,23 +21,20 @@ export type EstadoReserva =
 export interface Reserva {
   /** Identificador de la reserva. */
   id: number;
-  /** Médico del turno. */
-  id_medico: number;
-  /** Paciente que reservó. */
-  id_paciente: number;
-  /** Fecha y hora del turno (texto en formato ISO). */
-  fecha_hora: string;
   /** Estado actual del turno. */
   estado: EstadoReserva;
+
+  /** Fecha y hora del turno (texto en formato ISO). */
+  fecha_hora: string;
+  
   /** Valor de la consulta congelado al momento de reservar, en pesos. */
   valor_consulta: number;
-  /** Paciente solicitud de datos. */
-  paciente_nombres?: string;
-  paciente_apellidos?: string;
-  paciente_documento?: string;
-  /** Médicos solicitud de datos. */
-  medico_nombres?: string;
-  medico_apellidos?: string;
+
+    /** Paciente que reservó. */
+  paciente: UsuarioBase;
+
+  /** Médico del turno. */
+  medico: UsuarioBase;
 }
 
 /**
