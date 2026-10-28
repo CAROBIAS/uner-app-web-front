@@ -30,8 +30,8 @@
     <ng-template #body let-reserva>
       <tr>
         <td>{{ reserva.fecha_hora | date: 'HH:mm' }} hs</td>
-        <td>{{ reserva.apellidos }}, {{ reserva.nombres }}</td>
-        <td>{{ reserva.documento }}</td>
+        <td>{{ reserva.paciente.apellidos }}, {{ reserva.paciente.nombres }}</td>
+        <td>{{ reserva.paciente.documento }}</td>
         <td>
           <p-tag [value]="etiquetaEstado(reserva.estado)" [severity]="severidadEstado(reserva.estado)" />
         </td>
