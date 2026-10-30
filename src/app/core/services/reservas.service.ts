@@ -28,7 +28,7 @@ export class ReservasService {
 
   /** Devuelve la agenda diaria del medico autenticado. */
   listarAgenda(fecha: string): Observable<Reserva[]> {
-    return this.http.get<Reserva[]>(`${this.urlReservas}`, { params: { fecha } });
+    return this.http.get<Reserva[]>(`${this.urlReservas}/agenda`, { params: { fecha } });
   }
 
   /** Cancela un turno (el paciente puede hacerlo hasta el día anterior). */
@@ -38,7 +38,7 @@ export class ReservasService {
   
   /** Reserva un turno para un paciente en nombre de la administracion. */
   crearParaPaciente(datos: CrearReservaAdminRequest): Observable<Reserva> {
-    return this.http.post<Reserva>(`${this.urlReservas}/administrador`, datos);
+    return this.http.post<Reserva>(`${this.urlReservas}`, datos);
   }
 
   /** Registra el resultado de la atención de un turno en la agenda del medico. */
