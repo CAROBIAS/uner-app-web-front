@@ -1,0 +1,56 @@
+.encabezado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--espaciado);
+  margin-bottom: var(--espaciado);
+}
+
+.subtitulo {
+  margin: 0;
+  color: var(--color-texto-secundario);
+}
+
+.selector-fecha {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  font-weight: 600;
+}
+
+.selector-fecha input,
+.tarjeta {
+  padding: 0.75rem;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+}
+
+.tarjeta {
+  overflow-x: auto;
+  padding: 0;
+  box-shadow: var(--sombra-tarjeta);
+}
+
+p-message {
+  display: block;
+  margin-bottom: var(--espaciado);
+}
+
+.acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  gap: 0.5rem;
+}
+
+.sin-acciones,
+.vacio {
+  color: var(--color-texto-secundario);
+}
+
+.vacio {
+  padding: 2rem;
+  text-align: center;
+}

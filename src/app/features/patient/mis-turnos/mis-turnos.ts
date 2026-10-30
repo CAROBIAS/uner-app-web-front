@@ -20,11 +20,10 @@ type Severidad = 'success' | 'info' | 'warn' | 'danger' | 'secondary';
 
 /** Texto y color de cada estado de reserva. */
 const ESTADOS: Record<EstadoReserva, { etiqueta: string; severidad: Severidad }> = {
-  PENDIENTE: { etiqueta: 'Pendiente', severidad: 'info' },
+  ACTIVO: { etiqueta: 'Pendiente', severidad: 'info' },
   ATENDIDO: { etiqueta: 'Atendido', severidad: 'success' },
   AUSENTE: { etiqueta: 'Ausente', severidad: 'warn' },
-  CANCELADA_PACIENTE: { etiqueta: 'Cancelado por vos', severidad: 'danger' },
-  CANCELADA_ADMIN: { etiqueta: 'Cancelado por la clínica', severidad: 'danger' },
+  CANCELADO: { etiqueta: 'Cancelado', severidad: 'danger' },
 };
 
 /** Una fila de la tabla: la reserva con los datos ya preparados para mostrar. */
@@ -74,7 +73,7 @@ export class MisTurnos implements OnInit {
   readonly filas = computed<FilaTurno[]>(() =>
     this.reservas().map((reserva) => ({
       reserva,
-      profesional: this.nombreDelMedico(reserva.id_medico),
+      profesional: this.nombreDelMedico(reserva.medico.id),
       estado: ESTADOS[reserva.estado].etiqueta,
       severidad: ESTADOS[reserva.estado].severidad,
       puedeCancelar: this.sePuedeCancelar(reserva),
@@ -131,7 +130,7 @@ export class MisTurnos implements OnInit {
 
   /** Regla de la consigna: el paciente cancela solo hasta el día anterior al turno. */
   private sePuedeCancelar(reserva: Reserva): boolean {
-    if (reserva.estado !== 'PENDIENTE') {
+    if (reserva.estado !== 'ACTIVO') {
       return false;
     }
     const turno = new Date(reserva.fecha_hora);

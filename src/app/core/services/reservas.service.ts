@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { CrearReservaRequest, Reserva } from '../models/reserva.model';
+import { CrearReservaAdminRequest, CrearReservaRequest, EstadoAtencion, Reserva } from '../models/reserva.model';
 
 /** Horarios de atención: de 08:00 a 15:00 (el último turno termina a las 16:00). */
 const HORARIOS_ATENCION = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'];
@@ -26,9 +26,24 @@ export class ReservasService {
     return this.http.post<Reserva>(this.urlReservas, datos);
   }
 
+  /** Devuelve la agenda diaria del medico autenticado. */
+  listarAgenda(fecha: string): Observable<Reserva[]> {
+    return this.http.get<Reserva[]>(`${this.urlReservas}/agenda`, { params: { fecha } });
+  }
+
   /** Cancela un turno (el paciente puede hacerlo hasta el día anterior). */
   cancelar(id: number): Observable<Reserva> {
     return this.http.patch<Reserva>(`${this.urlReservas}/${id}/cancelar`, {});
+  }
+  
+  /** Reserva un turno para un paciente en nombre de la administracion. */
+  crearParaPaciente(datos: CrearReservaAdminRequest): Observable<Reserva> {
+    return this.http.post<Reserva>(`${this.urlReservas}`, datos);
+  }
+
+  /** Registra el resultado de la atención de un turno en la agenda del medico. */
+  actualizarEstado(id: number, estado: EstadoAtencion): Observable<Reserva> {
+    return this.http.patch<Reserva>(`${this.urlReservas}/${id}/estado`, { estado });
   }
 
   /**

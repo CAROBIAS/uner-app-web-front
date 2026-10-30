@@ -4,11 +4,7 @@
  */
 export type RolUsuario = 'MEDICO' | 'PACIENTE' | 'ADMINISTRADOR';
 
-/**
- * Datos del usuario logueado, tal como los devuelve el backend
- * en el login (dentro de "usuario") y en GET /api/auth/perfil.
- */
-export interface Usuario {
+export interface UsuarioBase {
   /** Identificador interno del usuario. */
   id: number;
   /** Número de documento, que también se usa para iniciar sesión. */
@@ -17,6 +13,13 @@ export interface Usuario {
   apellidos: string;
   /** Nombres del usuario. */
   nombres: string;
+}
+
+/**
+ * Datos del usuario logueado, tal como los devuelve el backend
+ * en el login (dentro de "usuario") y en GET /api/auth/perfil.
+ */
+export interface Usuario extends UsuarioBase {
   /** Correo electrónico. */
   email: string;
   /** Rol que define a qué pantallas puede entrar. */

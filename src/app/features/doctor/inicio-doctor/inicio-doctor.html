@@ -1,2 +1,69 @@
-<h1>Panel del médico</h1>
-<p>En construcción.</p>
+<div class="encabezado">
+  <div>
+    <h1>Agenda médica</h1>
+    <p class="subtitulo">Consultá tus turnos y registrá el resultado de cada atención.</p>
+  </div>
+  <label class="selector-fecha">
+    <span>Fecha de agenda</span>
+    <input type="date" [value]="fechaSeleccionada()" (change)="cambiarFecha($event)" />
+  </label>
+</div>
+
+@if (mensajeExito(); as mensaje) {
+  <p-message severity="success">{{ mensaje }}</p-message>
+}
+@if (mensajeError(); as mensaje) {
+  <p-message severity="error">{{ mensaje }}</p-message>
+}
+
+<section class="tarjeta">
+  <p-table [value]="reservas()" [loading]="cargando()" [tableStyle]="{ 'min-width': '48rem' }">
+    <ng-template #header>
+      <tr>
+        <th>Hora</th>
+        <th>Paciente</th>
+        <th>Documento</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-reserva>
+      <tr>
+        <td>{{ reserva.fecha_hora | date: 'HH:mm' }} hs</td>
+        <td>{{ reserva.paciente.apellidos }}, {{ reserva.paciente.nombres }}</td>
+        <td>{{ reserva.paciente.documento }}</td>
+        <td>
+          <p-tag [value]="etiquetaEstado(reserva.estado)" [severity]="severidadEstado(reserva.estado)" />
+        </td>
+        <td class="acciones">
+          @if (reserva.estado === 'ACTIVO') {
+            <p-button
+              label="Atendido"
+              icon="pi pi-check"
+              [outlined]="true"
+              [loading]="actualizandoId() === reserva.id"
+              [disabled]="actualizandoId() !== null"
+              (onClick)="cambiarEstado(reserva, 'ATENDIDO')"
+            />
+            <p-button
+              label="Ausente"
+              icon="pi pi-user-minus"
+              severity="secondary"
+              [outlined]="true"
+              [loading]="actualizandoId() === reserva.id"
+              [disabled]="actualizandoId() !== null"
+              (onClick)="cambiarEstado(reserva, 'AUSENTE')"
+            />
+          } @else {
+            <span class="sin-acciones">Sin acciones disponibles</span>
+          }
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5" class="vacio">No hay turnos para esta fecha.</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</section>

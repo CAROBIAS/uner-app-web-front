@@ -26,17 +26,14 @@ const TITULO_POR_ROL: Record<RolUsuario, string> = {
 const MENU_POR_ROL: Record<RolUsuario, EnlaceMenu[]> = {
   PACIENTE: [
     { etiqueta: 'Inicio', ruta: '/paciente' },
-    { etiqueta: 'Mis turnos', ruta: '/paciente/turnos' },
+    { etiqueta: 'Mis turnos', ruta: '/paciente/mis-turnos' },
     { etiqueta: 'Reservar turno', ruta: '/paciente/reservar' },
   ],
   MEDICO: [
     { etiqueta: 'Inicio', ruta: '/doctor' },
-    { etiqueta: 'Turnos', ruta: '/doctor/turnos' },
   ],
   ADMINISTRADOR: [
     { etiqueta: 'Inicio', ruta: '/admin' },
-    { etiqueta: 'Turnos', ruta: '/admin/turnos' },
-    { etiqueta: 'Consultas', ruta: '/admin/consultas' },
   ],
 };
 

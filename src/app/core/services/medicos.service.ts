@@ -17,4 +17,11 @@ export class MedicosService {
   listar(): Observable<Medico[]> {
     return this.http.get<Medico[]>(this.urlMedicos);
   }
+  
+  /** Actualiza el honorario de un médico (solo disponible para administración). */
+  actualizarValorConsulta(idMedico: number, valor_consulta: number): Observable<Medico> {
+    return this.http.patch<Medico>(`${this.urlMedicos}/${idMedico}/valor-consulta`, {
+      valor_consulta,
+    });
+  }
 }

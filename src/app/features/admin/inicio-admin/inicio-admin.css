@@ -1,0 +1,125 @@
+.subtitulo,
+.ayuda {
+  color: var(--color-texto-secundario);
+}
+
+.subtitulo {
+  margin: 0 0 var(--espaciado);
+}
+
+p-message {
+  display: block;
+  margin-bottom: var(--espaciado);
+}
+
+.tarjeta {
+  background-color: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+  box-shadow: var(--sombra-tarjeta);
+}
+
+.formulario-reserva {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.5rem;
+}
+
+.formulario-reserva h2,
+.seccion h2 {
+  font-size: 1.15rem;
+}
+
+.ayuda {
+  margin: 0.25rem 0 0;
+}
+
+.busqueda-paciente,
+.campos-reserva,
+.busqueda-paciente label,
+.campos-reserva label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.busqueda-paciente label,
+.campos-reserva label {
+  font-weight: 600;
+}
+
+.campo-busqueda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.campo-busqueda input {
+  flex: 1;
+}
+
+.campos-reserva {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  align-items: end;
+  gap: 1rem;
+}
+
+input,
+select {
+  min-height: 2.75rem;
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  color: var(--color-texto);
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-borde);
+}
+
+input:focus,
+select:focus {
+  outline: 2px solid var(--color-primario);
+  outline-offset: 1px;
+}
+
+.paciente-encontrado {
+  margin: 0.25rem 0 0;
+  color: var(--color-exito);
+}
+
+.seccion {
+  margin-top: 1.75rem;
+}
+
+.seccion h2 {
+  margin-bottom: 0.75rem;
+}
+
+.tabla-contenedor {
+  overflow-x: auto;
+}
+
+.valor-input {
+  width: 10rem;
+}
+
+.acciones {
+  text-align: right;
+}
+
+.vacio {
+  padding: 2rem;
+  color: var(--color-texto-secundario);
+  text-align: center;
+}
+
+@media (max-width: 600px) {
+  .formulario-reserva {
+    padding: 1rem;
+  }
+
+  .campo-busqueda input {
+    min-width: 100%;
+  }
+}

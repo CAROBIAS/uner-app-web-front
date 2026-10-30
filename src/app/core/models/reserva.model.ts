@@ -1,12 +1,18 @@
+import { UsuarioBase } from "./usuario.model";
+
 /**
  * Estados posibles de una reserva (enum EstadoReserva del backend).
  */
 export type EstadoReserva =
-  | 'PENDIENTE'
+  | 'ACTIVO'
   | 'ATENDIDO'
   | 'AUSENTE'
-  | 'CANCELADA_PACIENTE'
-  | 'CANCELADA_ADMIN';
+  | 'CANCELADO';
+
+/**
+ * Estados posibles de una Atencion (enum EstadoAtencion del backend).
+ */
+  export type EstadoAtencion = 'ATENDIDO' | 'AUSENTE';
 
 /**
  * Reserva de un turno, tal como la devuelve el backend
@@ -15,16 +21,20 @@ export type EstadoReserva =
 export interface Reserva {
   /** Identificador de la reserva. */
   id: number;
-  /** Médico del turno. */
-  id_medico: number;
-  /** Paciente que reservó. */
-  id_paciente: number;
-  /** Fecha y hora del turno (texto en formato ISO). */
-  fecha_hora: string;
   /** Estado actual del turno. */
   estado: EstadoReserva;
+
+  /** Fecha y hora del turno (texto en formato ISO). */
+  fecha_hora: string;
+  
   /** Valor de la consulta congelado al momento de reservar, en pesos. */
-  valor_congelado: number;
+  valor_consulta: number;
+
+    /** Paciente que reservó. */
+  paciente: UsuarioBase;
+
+  /** Médico del turno. */
+  medico: UsuarioBase;
 }
 
 /**
@@ -35,4 +45,9 @@ export interface CrearReservaRequest {
   id_medico: number;
   /** Fecha y hora local del turno, por ejemplo "2026-10-20T09:00:00". */
   fecha_hora: string;
+}
+
+export interface CrearReservaAdminRequest extends CrearReservaRequest {
+  /** Paciente en reserva. */
+  id_paciente: number;
 }
