@@ -109,8 +109,12 @@ export class ReservarTurno implements OnInit {
       this.horarios.set([]);
       return;
     }
-    this.reservasService.obtenerHorarios(idMedico, fecha).subscribe((horarios) => {
-      this.horarios.set(horarios);
+        this.reservasService.obtenerHorarios(idMedico, fecha).subscribe({
+      next: (horarios) => this.horarios.set(horarios),
+      error: (error: HttpErrorResponse) => {
+        this.horarios.set([]);
+        this.mensajeError.set(obtenerMensajeDeError(error));
+      },
     });
   }
 
