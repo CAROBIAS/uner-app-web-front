@@ -1,10 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { CrearReservaAdminRequest, CrearReservaRequest, EstadoAtencion, Reserva } from '../models/reserva.model';
-
-/** Horarios de atención: de 08:00 a 15:00 (el último turno termina a las 16:00). */
-const HORARIOS_ATENCION = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00'];
 
 /**
  * Servicio de reservas: reservar, listar y cancelar turnos.
@@ -47,22 +44,16 @@ export class ReservasService {
   }
 
   /**
-   * Devuelve los horarios que se pueden elegir para un médico en una fecha.
-   *
-   * Por ahora el backend no tiene un endpoint de disponibilidad, así que se
-   * devuelven todos los horarios de atención, sin los que ya pasaron si la
-   * fecha es hoy. Si el horario elegido está ocupado, el backend lo rechaza
-   * al reservar y la pantalla muestra su mensaje.
-   *
-   * Cuando exista GET /api/reservas/disponibilidad, solo hay que cambiar el
-   * contenido de este método por la llamada HTTP correspondiente.
+   * Devuelve los horarios libres de un médico en una fecha
+   * (GET /api/reservas/disponibilidad), por ejemplo ["08:00", "10:00"].
+   * El backend ya saca los ocupados, los fines de semana y, si es hoy, las horas que pasaron.
    */
-  obtenerHorarios(_idMedico: number, fecha: Date): Observable<string[]> {
-    const ahora = new Date();
-    const esHoy = fecha.toDateString() === ahora.toDateString();
-    const horarios = esHoy
-      ? HORARIOS_ATENCION.filter((h) => Number(h.slice(0, 2)) > ahora.getHours())
-      : HORARIOS_ATENCION;
-    return of(horarios);
+  obtenerHorarios(idMedico: number, fecha: Date): Observable<string[]> {
+    const anio = fecha.getFullYear();
+    const mes = String(fecha.getMonth() + 1).padStart(2, '0');
+    const dia = String(fecha.getDate()).padStart(2, '0');
+    return this.http.get<string[]>(`${this.urlReservas}/disponibilidad`, {
+      params: { id_medico: idMedico, fecha: `${anio}-${mes}-${dia}` },
+    });
   }
 }

@@ -26,7 +26,7 @@
         <td>{{ fila.reserva.fecha_hora | date: 'dd/MM/yyyy HH:mm' }} hs</td>
         <td>{{ fila.profesional }}</td>
         <td><p-tag [value]="fila.estado" [severity]="fila.severidad" /></td>
-        <td>{{ fila.reserva.valor_congelado | currency: 'ARS' : 'symbol-narrow' : '1.0-0' }}</td>
+        <td>{{ fila.reserva.valor_consulta | currency: 'ARS' : 'symbol-narrow' : '1.0-0' }}</td>
         <td class="acciones">
           @if (fila.puedeCancelar) {
             <p-button

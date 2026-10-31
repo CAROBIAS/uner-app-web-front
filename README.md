@@ -34,12 +34,12 @@ comprimidos. El límite de error sigue en 1 MB.
 
 ### Usuarios de prueba (los crea el seed del backend, clave `asd123`)
 
-| Rol           | Documento |
-|---------------|-----------|
-| Paciente      | 40123456  |
-| Médico        | 24567890  |
-| Administrador | 28456123  |
-| Paciente dado de baja (para probar el error) | 34321098 |
+| Rol                                          | Documento |
+| -------------------------------------------- | --------- |
+| Paciente                                     | 40123456  |
+| Médico                                       | 24567890  |
+| Administrador                                | 28456123  |
+| Paciente dado de baja (para probar el error) | 34321098  |
 
 ## Conexión con el backend (proxy)
 
@@ -79,15 +79,15 @@ src/app/
 
 ## Rutas y acceso por rol
 
-| Ruta                  | Quién entra                 | Pantalla                    |
-|-----------------------|-----------------------------|-----------------------------|
-| `/login`              | solo sin sesión             | Login                       |
-| `/paciente`           | PACIENTE                    | Inicio del paciente         |
-| `/paciente/reservar`  | PACIENTE                    | Reservar turno              |
-| `/paciente/turnos`    | PACIENTE                    | Mis turnos                  |
-| `/doctor`             | MEDICO                      | Provisoria (Integrante 5)   |
-| `/admin`              | ADMINISTRADOR               | Provisoria (Integrante 5)   |
-| `/not-found`          | todos                       | Página no encontrada        |
+| Ruta                   | Quién entra     | Pantalla                  |
+| ---------------------- | --------------- | ------------------------- |
+| `/login`               | solo sin sesión | Login                     |
+| `/paciente`            | PACIENTE        | Inicio del paciente       |
+| `/paciente/reservar`   | PACIENTE        | Reservar turno            |
+| `/paciente/mis-turnos` | PACIENTE        | Mis turnos                |
+| `/doctor`              | MEDICO          | Provisoria (Integrante 5) |
+| `/admin`               | ADMINISTRADOR   | Provisoria (Integrante 5) |
+| `/not-found`           | todos           | Página no encontrada      |
 
 - `authGuard` protege todo lo que está dentro del layout. Sin sesión, te manda a `/login`.
 - `rolGuard` lee `data.roles` de la ruta. Si el rol no coincide, te manda a tu pantalla de inicio.
@@ -108,30 +108,29 @@ el interceptor cierra la sesión y vuelve al login.
   Se puede cancelar un turno pendiente hasta el día anterior, como pide la consigna.
 - Los errores que manda el backend (horario ocupado, fuera de término, etc.) se muestran tal cual.
 
-**Pendiente del backend:** no existe todavía un endpoint de horarios disponibles, así que se muestran
-los 8 horarios y, si el elegido está ocupado, el backend lo rechaza al confirmar.
-Cuando exista, se cambia solo el método `obtenerHorarios()` de `ReservasService`.
+Los horarios se piden a `GET /api/reservas/disponibilidad`: el paciente ve solo los libres
+(el backend ya saca los ocupados, los fines de semana y las horas que pasaron si es hoy).
 
 ## Identidad visual y convenciones
 
 Los colores y medidas están como variables en `src/styles.css`. En los componentes **siempre** se
 usan las variables, nunca colores sueltos:
 
-| Variable                   | Uso                    | Valor     |
-|----------------------------|------------------------|-----------|
-| `--color-primario`         | botones, enlaces       | `#0866d9` |
-| `--color-titulos`          | títulos                | `#142b59` |
-| `--color-secundario`       | detalles               | `#159d91` |
-| `--color-fondo`            | fondo de página        | `#f5f8fc` |
-| `--color-superficie`       | tarjetas               | `#ffffff` |
-| `--color-borde`            | bordes                 | `#dce4ed` |
-| `--color-exito` / `--color-error` | mensajes        | `#159b68` / `#dc4149` |
+| Variable                          | Uso              | Valor                 |
+| --------------------------------- | ---------------- | --------------------- |
+| `--color-primario`                | botones, enlaces | `#0866d9`             |
+| `--color-titulos`                 | títulos          | `#142b59`             |
+| `--color-secundario`              | detalles         | `#159d91`             |
+| `--color-fondo`                   | fondo de página  | `#f5f8fc`             |
+| `--color-superficie`              | tarjetas         | `#ffffff`             |
+| `--color-borde`                   | bordes           | `#dce4ed`             |
+| `--color-exito` / `--color-error` | mensajes         | `#159b68` / `#dc4149` |
 
 Además están `--radio-borde`, `--sombra-tarjeta` y `--espaciado`.
 
 - PrimeNG usa el azul de la clínica (`core/theme/clinica-preset.ts`) y está en español (`core/theme/primeng-es.ts`).
 - Fechas y montos en formato argentino (`LOCALE_ID = 'es-AR'`): `| date` y `| currency: 'ARS'`.
-- Los modelos usan los mismos nombres que el backend (`id_medico`, `valor_congelado`, etc.).
+- Los modelos usan los mismos nombres que el backend y el modelo de datos de la consigna (`id_medico`, `valor_consulta`, etc.).
 - Cada clase, servicio e interfaz lleva un comentario `/** */`, que es lo que lee Compodoc.
 
 ### Para agregar una pantalla (médico o admin)
